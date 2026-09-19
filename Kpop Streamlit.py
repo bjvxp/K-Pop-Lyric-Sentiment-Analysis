@@ -5,25 +5,24 @@ from transformers import pipeline
 
 import re
 
-@st.cache_data
-def load_lyric_data():
-    """Loads the scraped database. Cached so it only reads the CSV once."""
-    # Update this path if your CSV name is different
-    return pd.read_csv("./data/raw_lyrics/kpop_corporate_lyrics_20260919.csv")
+# --- 3. STREAMLIT APP EXECUTION ---
 
-def detect_language(text):
-    """Uses Regex to detect Hangul vs English characters."""
-    has_hangul = bool(re.search(r'[\uAC00-\uD7A3]', text))
-    has_english = bool(re.search(r'[a-zA-Z]', text))
+st.title("Multilingual Sentiment Analytics")
+st.write("Evaluating cross-lingual polarity transitions in corporate K-pop tracks.")
+
+# 1. Load the real database (THIS LINE MUST EXIST HERE)
+df = load_lyric_data()
+
+# 2. Build the interactive UI filters
+col1, col2 = st.columns(2)
+
+with col1:
+    artist_list = df['artist'].unique()
+    selected_artist = st.selectbox("Select Artist", artist_list)
     
-    if has_hangul and has_english:
-        return "Mixed (Konglish/Dual)"
-    elif has_hangul:
-        return "Hangul"
-    else:
-        return "English"
-
-
+with col2:
+    artist_songs = df[df['artist'] == selected_artist]['song_title'].unique()
+    selected_song = st.selectbox("Select Track", artist_songs)
 
 # --- 1. NLP PIPELINE ---
 
