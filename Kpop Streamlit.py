@@ -10,6 +10,18 @@ import re
 def load_lyric_data():
     return pd.read_csv("kpop_corporate_lyrics_20260919.csv")
 
+def detect_language(text):
+    """Uses Regex to detect Hangul vs English characters."""
+    has_hangul = bool(re.search(r'[\uAC00-\uD7A3]', text))
+    has_english = bool(re.search(r'[a-zA-Z]', text))
+    
+    if has_hangul and has_english:
+        return "Mixed (Konglish/Dual)"
+    elif has_hangul:
+        return "Hangul"
+    else:
+        return "English"
+
 # --- 3. STREAMLIT APP EXECUTION ---
 
 st.title("Multilingual Sentiment Analytics")
