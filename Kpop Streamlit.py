@@ -5,6 +5,11 @@ from transformers import pipeline
 
 import re
 
+
+@st.cache_data
+def load_lyric_data():
+    return pd.read_csv("kpop_corporate_lyrics_20260919.csv")
+
 # --- 3. STREAMLIT APP EXECUTION ---
 
 st.title("Multilingual Sentiment Analytics")
