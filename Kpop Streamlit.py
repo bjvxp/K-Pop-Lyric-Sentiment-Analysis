@@ -145,8 +145,11 @@ st.title("Multilingual Sentiment Analytics")
 st.write("Evaluating cross-lingual polarity transitions in corporate K-pop tracks.")
 
 # 1. Load the real database
-df = load_lyric_data()
-
+@st.cache_data
+def load_lyric_data():
+    # Remove the folder path and just use the filename
+    return pd.read_csv("kpop_corporate_lyrics_20260919.csv")
+    
 # 2. Build the interactive UI filters
 col1, col2 = st.columns(2)
 
