@@ -23,11 +23,13 @@ col1, col2 = st.columns(2)
 
 with col1:
     artist_list = df['artist'].unique()
-    selected_artist = st.selectbox("Select Artist", artist_list)
+    # Add the key parameter here
+    selected_artist = st.selectbox("Select Artist", artist_list, key="artist_dropdown")
     
 with col2:
     artist_songs = df[df['artist'] == selected_artist]['song_title'].unique()
-    selected_song = st.selectbox("Select Track", artist_songs)
+    # Add the key parameter here
+    selected_song = st.selectbox("Select Track", artist_songs, key="song_dropdown")
 
 # --- 1. NLP PIPELINE ---
 
